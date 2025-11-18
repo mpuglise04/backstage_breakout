@@ -9,6 +9,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpForce = 10f;
 
     private Rigidbody2D rb;
+
+    private Animator anim;
+
     private bool grounded;
     private Vector3 originalScale;
 
@@ -16,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>(); // Connects to Rigidbody2D
+        anim = GetComponent<Animator>();
         originalScale = transform.localScale;
     }
 
@@ -35,6 +39,8 @@ public class PlayerMovement : MonoBehaviour
             transform.localScale = new Vector3(Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
         else if (move < 0)
             transform.localScale = new Vector3(-Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
+
+        anim.SetBool("run", move != 0);
     }
 
     private void HandleJump()
