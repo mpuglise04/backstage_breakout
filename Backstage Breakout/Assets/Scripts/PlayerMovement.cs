@@ -9,15 +9,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpForce = 10f;
 
     private Rigidbody2D rb;
-
     private Animator anim;
     private SpriteRenderer rend;
     private bool grounded;
     private Vector3 originalScale;
 
     private bool canHide = false;
-    private bool hiding = false;
-
+    public bool IsHiding { get; private set; } = false;
 
     private void Awake()
     {
@@ -46,18 +44,14 @@ public class PlayerMovement : MonoBehaviour
 
         anim.SetBool("run", move != 0);
 
+        // Hiding logic: hold H while in a trashcan trigger
         if (canHide && Input.GetKey("h"))
         {
-            Physics2D.IgnoreLayerCollision(8, 9, true);
-            rend.sortingOrder = 0;
-            hiding = true;
+            StartHiding();
         }
-
         else
         {
-            Physics2D.IgnoreLayerCollision(8, 9, false);
-            rend.sortingOrder = 2;
-            hiding = false;
+            StopHiding();
         }
     }
 
@@ -71,8 +65,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(!hiding)
-            rb.velocity = new Vector2 (rb.velocity.x, 0);
+        if (!IsHiding)
+            rb.velocity = new Vector2(rb.velocity.x, 0);
         else
             rb.velocity = Vector2.zero;
     }
@@ -97,7 +91,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.name.Equals("Trashcan 1") || other.gameObject.name.Equals("Trashcan 2")) 
+        // Can hide when inside these trashcans collider
+        if (other.gameObject.name.Equals("Trashcan 1") || other.gameObject.name.Equals("Trashcan 2"))
         {
             canHide = true;
         }
@@ -108,8 +103,29 @@ public class PlayerMovement : MonoBehaviour
         if (other.gameObject.name.Equals("Trashcan 1") || other.gameObject.name.Equals("Trashcan 2"))
         {
             canHide = false;
+            StopHiding();
         }
     }
+
+    public void StartHiding()
+    {
+        if (IsHiding) return;
+
+        Physics2D.IgnoreLayerCollision(8, 9, true);
+
+        rend.sortingOrder = 0;
+
+        IsHiding = true;
+    }
+
+    public void StopHiding()
+    {
+        if (!IsHiding) return;
+
+        Physics2D.IgnoreLayerCollision(8, 9, false);
+
+        rend.sortingOrder = 2;
+
+        IsHiding = false;
+    }
 }
-
-
