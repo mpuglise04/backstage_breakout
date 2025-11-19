@@ -11,14 +11,18 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
 
     private Animator anim;
-
+    private SpriteRenderer rend;
     private bool grounded;
     private Vector3 originalScale;
+
+    private bool canHide = false;
+    private bool hiding = false;
 
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>(); // Connects to Rigidbody2D
+        rend = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
         originalScale = transform.localScale;
     }
@@ -41,6 +45,20 @@ public class PlayerMovement : MonoBehaviour
             transform.localScale = new Vector3(-Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
 
         anim.SetBool("run", move != 0);
+
+        if (canHide && Input.GetKey("h"))
+        {
+            Physics2D.IgnoreLayerCollision(8, 9, true);
+            rend.sortingOrder = 0;
+            hiding = true;
+        }
+
+        else
+        {
+            Physics2D.IgnoreLayerCollision(8, 9, false);
+            rend.sortingOrder = 2;
+            hiding = false;
+        }
     }
 
     private void HandleJump()
@@ -49,6 +67,14 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
+    }
+
+    private void FixedUpdate()
+    {
+        if(!hiding)
+            rb.velocity = new Vector2 (rb.velocity.x, 0);
+        else
+            rb.velocity = Vector2.zero;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -66,6 +92,22 @@ public class PlayerMovement : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             grounded = false;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.name.Equals("Trashcan 1") || other.gameObject.name.Equals("Trashcan 2")) 
+        {
+            canHide = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.name.Equals("Trashcan 1") || other.gameObject.name.Equals("Trashcan 2"))
+        {
+            canHide = false;
         }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class EnemyBlondeMovement : MonoBehaviour
@@ -8,13 +9,14 @@ public class EnemyBlondeMovement : MonoBehaviour
     [SerializeField] private float moveSpeed = 2f;
     [SerializeField] private Transform leftBoundary;   // Assign empty GameObject
     [SerializeField] private Transform rightBoundary;  // Assign empty GameObject
-
+    [SerializeField] private GameObject gotchaText;
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
     private bool movingRight = true;
 
     private void Awake()
     {
+        gotchaText.SetActive(false);
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
@@ -40,5 +42,17 @@ public class EnemyBlondeMovement : MonoBehaviour
             if (transform.position.x <= leftBoundary.position.x)
                 movingRight = true;
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.name.Equals("Player"))
+            gotchaText.SetActive(true);
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.name.Equals("Player"))
+            gotchaText.SetActive(false);
     }
 }
