@@ -47,9 +47,4 @@ public class EnemyBlondeMovement : MonoBehaviour
         if (other.gameObject.name.Equals("Player"))
             GameManager.Instance.GameOver("You Got Caught!");
     }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.gameObject.name.Equals("Player"));
-    }
 }
