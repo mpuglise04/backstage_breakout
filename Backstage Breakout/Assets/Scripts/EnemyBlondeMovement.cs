@@ -9,14 +9,12 @@ public class EnemyBlondeMovement : MonoBehaviour
     [SerializeField] private float moveSpeed = 2f;
     [SerializeField] private Transform leftBoundary;   // Assign empty GameObject
     [SerializeField] private Transform rightBoundary;  // Assign empty GameObject
-    [SerializeField] private GameObject gotchaText;
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
     private bool movingRight = true;
 
     private void Awake()
     {
-        gotchaText.SetActive(false);
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
@@ -52,7 +50,6 @@ public class EnemyBlondeMovement : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.name.Equals("Player"))
-            gotchaText.SetActive(false);
+        if (other.gameObject.name.Equals("Player"));
     }
 }
