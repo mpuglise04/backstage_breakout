@@ -1,18 +1,19 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    [Header("Game Over UI")]
     [SerializeField] private GameObject gameOverScreen;
-
-    [SerializeField] private TextMeshProUGUI loseHeaderText;
-    [SerializeField] private TextMeshProUGUI winHeaderText;
-
-    // Optional: your smaller descriptive message text
     [SerializeField] private TextMeshProUGUI gameOverText;
+    [SerializeField] private TextMeshProUGUI gameOverTitle;
+
+    [Header("Intro UI")]
+    [SerializeField] private TextMeshProUGUI introText;
 
     private bool isGameOver = false;
 
@@ -29,22 +30,52 @@ public class GameManager : MonoBehaviour
             gameOverScreen.SetActive(false);
     }
 
-    public void GameOver(bool didWin)
+    private void Start()
+    {
+        if (introText != null)
+        {
+            introText.text = "Reach the venue before time runs out!";
+            introText.gameObject.SetActive(true);
+            StartCoroutine(HideIntroText());
+        }
+    }
+
+    private IEnumerator HideIntroText()
+    {
+        yield return new WaitForSeconds(1.5f);
+        introText.gameObject.SetActive(false);
+    }
+
+    public void GameOver(bool playerWon)
     {
         if (isGameOver) return;
+
         isGameOver = true;
 
-        // Toggle big headers
-        loseHeaderText.gameObject.SetActive(!didWin);
-        winHeaderText.gameObject.SetActive(didWin);
-
-        // Optional message under the header
-        if (gameOverText != null)
+        // Title styling
+        if (gameOverTitle != null)
         {
-            gameOverText.text = didWin ? "You escaped!" : "You've been caught!";
+            if (playerWon)
+            {
+                gameOverTitle.text = "YOU WIN!";
+                gameOverTitle.color = Color.green;
+            }
+            else
+            {
+                gameOverTitle.text = "GAME OVER";
+                gameOverTitle.color = Color.red;
+            }
         }
 
-        gameOverScreen.SetActive(true);
+        // Description text
+        if (gameOverText != null)
+        {
+            gameOverText.text = playerWon ? "You Escaped!" : "You've Been Caught!";
+        }
+
+        if (gameOverScreen != null)
+            gameOverScreen.SetActive(true);
+
         Time.timeScale = 0f;
     }
 
@@ -58,4 +89,3 @@ public class GameManager : MonoBehaviour
         }
     }
 }
-
