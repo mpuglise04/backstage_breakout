@@ -6,7 +6,7 @@ public class FinishZone : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            GameManager.Instance.GameOver("You Escaped!");
+            GameManager.Instance.GameOver(true);
         }
     }
 }

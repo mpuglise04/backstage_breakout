@@ -7,6 +7,11 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     [SerializeField] private GameObject gameOverScreen;
+
+    [SerializeField] private TextMeshProUGUI loseHeaderText;
+    [SerializeField] private TextMeshProUGUI winHeaderText;
+
+    // Optional: your smaller descriptive message text
     [SerializeField] private TextMeshProUGUI gameOverText;
 
     private bool isGameOver = false;
@@ -24,18 +29,22 @@ public class GameManager : MonoBehaviour
             gameOverScreen.SetActive(false);
     }
 
-    public void GameOver(string message = "Game Over")
+    public void GameOver(bool didWin)
     {
         if (isGameOver) return;
-
         isGameOver = true;
 
+        // Toggle big headers
+        loseHeaderText.gameObject.SetActive(!didWin);
+        winHeaderText.gameObject.SetActive(didWin);
+
+        // Optional message under the header
         if (gameOverText != null)
-            gameOverText.text = message;
+        {
+            gameOverText.text = didWin ? "You escaped!" : "You've been caught!";
+        }
 
-        if (gameOverScreen != null)
-            gameOverScreen.SetActive(true);
-
+        gameOverScreen.SetActive(true);
         Time.timeScale = 0f;
     }
 
@@ -49,3 +58,4 @@ public class GameManager : MonoBehaviour
         }
     }
 }
+
