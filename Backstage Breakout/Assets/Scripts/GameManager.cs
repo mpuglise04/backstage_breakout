@@ -10,7 +10,9 @@ public class GameManager : MonoBehaviour
     [Header("Game Over UI")]
     [SerializeField] private GameObject gameOverScreen;
     [SerializeField] private TextMeshProUGUI gameOverText;
-    [SerializeField] private TextMeshProUGUI gameOverTitle;
+
+    [SerializeField] private GameObject winHeaderText;   // “YOU WIN!”
+    [SerializeField] private GameObject loseHeaderText;  // “GAME OVER”
 
     [Header("Intro UI")]
     [SerializeField] private TextMeshProUGUI introText;
@@ -28,6 +30,10 @@ public class GameManager : MonoBehaviour
 
         if (gameOverScreen != null)
             gameOverScreen.SetActive(false);
+
+        // IMPORTANT: Ensure headers start hidden
+        if (winHeaderText != null) winHeaderText.SetActive(false);
+        if (loseHeaderText != null) loseHeaderText.SetActive(false);
     }
 
     private void Start()
@@ -49,29 +55,21 @@ public class GameManager : MonoBehaviour
     public void GameOver(bool playerWon)
     {
         if (isGameOver) return;
-
         isGameOver = true;
 
-        // Title styling
-        if (gameOverTitle != null)
-        {
-            if (playerWon)
-            {
-                gameOverTitle.text = "YOU WIN!";
-                gameOverTitle.color = Color.green;
-            }
-            else
-            {
-                gameOverTitle.text = "GAME OVER";
-                gameOverTitle.color = Color.red;
-            }
-        }
+        // Hide both first to prevent overlap
+        if (winHeaderText != null) winHeaderText.SetActive(false);
+        if (loseHeaderText != null) loseHeaderText.SetActive(false);
 
-        // Description text
+        // Show correct header
+        if (playerWon && winHeaderText != null)
+            winHeaderText.SetActive(true);
+        else if (!playerWon && loseHeaderText != null)
+            loseHeaderText.SetActive(true);
+
+        // Subtitle text
         if (gameOverText != null)
-        {
             gameOverText.text = playerWon ? "You Escaped!" : "You've Been Caught!";
-        }
 
         if (gameOverScreen != null)
             gameOverScreen.SetActive(true);

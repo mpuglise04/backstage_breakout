@@ -2819,7 +2819,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameOverScreen: {fileID: 1938727666}
   gameOverText: {fileID: 1596968604}
-  gameOverTitle: {fileID: 0}
+  winHeaderText: {fileID: 1216556311}
+  loseHeaderText: {fileID: 1526874903}
   introText: {fileID: 428230362}
 --- !u!4 &596532535
 Transform:
@@ -3242,7 +3243,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1216556312
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3791,7 +3792,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1526874904
 RectTransform:
   m_ObjectHideFlags: 0
