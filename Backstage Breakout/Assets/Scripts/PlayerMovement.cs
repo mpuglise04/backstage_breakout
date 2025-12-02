@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
+
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 10f;
 
@@ -16,6 +17,10 @@ public class PlayerMovement : MonoBehaviour
 
     private bool canHide = false;
     public bool IsHiding { get; private set; } = false;
+
+    [Header("Invincibility Settings")]
+    [SerializeField] private GameObject sunglassesVisual; // Child object for visual feedback
+    private bool isInvincible = false;
 
     private void Awake()
     {
@@ -128,4 +133,37 @@ public class PlayerMovement : MonoBehaviour
 
         IsHiding = false;
     }
+
+    // Allows other scripts to check if the player is invincible
+    public bool IsInvincible()
+    {
+        return isInvincible;
+    }
+
+
+    public void ActivateInvincibility(float duration)
+    {
+        if (!isInvincible)
+            StartCoroutine(InvincibilityCoroutine(duration));
+    }
+
+    private IEnumerator InvincibilityCoroutine(float duration)
+    {
+        isInvincible = true;
+
+        // Show sunglasses
+        if (sunglassesVisual != null)
+            sunglassesVisual.SetActive(true);
+
+        // Wait for the duration
+        yield return new WaitForSeconds(duration);
+
+        // End invincibility
+        isInvincible = false;
+
+        // Hide sunglasses
+        if (sunglassesVisual != null)
+            sunglassesVisual.SetActive(false);
+    }
+
 }

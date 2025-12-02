@@ -18,6 +18,9 @@ public class EnemyBlondeMovement : MonoBehaviour
     private Animator animator;
     private bool movingRight = true;
 
+    // Track the player if they are inside the trigger
+    private PlayerMovement playerInside = null;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -35,8 +38,13 @@ public class EnemyBlondeMovement : MonoBehaviour
         }
         else
         {
-            // Stop the enemy if not moving
             rb.velocity = new Vector2(0f, rb.velocity.y);
+        }
+
+        // If player is inside trigger, check every frame in case invincibility ended
+        if (playerInside != null)
+        {
+            TryDamagePlayer();
         }
     }
 
@@ -62,7 +70,27 @@ public class EnemyBlondeMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.name.Equals("Player"))
+        if (other.CompareTag("Player"))
+        {
+            playerInside = other.GetComponent<PlayerMovement>();
+            TryDamagePlayer();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            playerInside = null;
+        }
+    }
+
+    private void TryDamagePlayer()
+    {
+        if (playerInside != null && !playerInside.IsInvincible())
+        {
             GameManager.Instance.GameOver(false);
+            playerInside = null; // Prevent multiple triggers
+        }
     }
 }
