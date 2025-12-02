@@ -77,6 +77,26 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f;
     }
 
+    public void GameOverTimeout()
+    {
+        if (isGameOver) return;
+        isGameOver = true;
+
+        // Hide both headers
+        if (winHeaderText != null) winHeaderText.SetActive(false);
+        if (loseHeaderText != null) loseHeaderText.SetActive(true);
+
+        // Set specific timeout message
+        if (gameOverText != null)
+            gameOverText.text = "You Ran Out of Time!";
+
+        if (gameOverScreen != null)
+            gameOverScreen.SetActive(true);
+
+        Time.timeScale = 0f;
+    }
+
+
     private void Update()
     {
         if (isGameOver && Input.GetKeyDown(KeyCode.R))
