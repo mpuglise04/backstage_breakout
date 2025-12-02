@@ -1,3 +1,4 @@
+using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,17 +14,30 @@ public class EnemyBlondeMovement : MonoBehaviour
 
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
+    [SerializeField] private bool shouldMove = false; // Set this in Inspector for each instance
+    private Animator animator;
     private bool movingRight = true;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
+        animator.SetBool("moving", shouldMove);
     }
 
     private void Update()
     {
-        MoveEnemy();
+        // Only move if the Animator's "moving" parameter is true
+        if (animator.GetBool("moving"))
+        {
+            MoveEnemy();
+        }
+        else
+        {
+            // Stop the enemy if not moving
+            rb.velocity = new Vector2(0f, rb.velocity.y);
+        }
     }
 
     private void MoveEnemy()

@@ -196,3 +196,4 @@ MonoBehaviour:
   moveSpeed: 2
   leftX: 20
   rightX: 28
+  shouldMove: 0

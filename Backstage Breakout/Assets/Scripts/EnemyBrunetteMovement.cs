@@ -1,6 +1,6 @@
+using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class EnemyBrunette : MonoBehaviour
@@ -12,19 +12,33 @@ public class EnemyBrunette : MonoBehaviour
     [SerializeField] private float leftX;
     [SerializeField] private float rightX;
 
+    [Header("Movement Toggle")]
+    [SerializeField] private bool shouldMove = false; // Set per instance
+    private Animator animator;
+    private bool movingRight = true;
+
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
-    private bool movingRight = true;
+    
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
+        animator.SetBool("moving", shouldMove);
     }
 
     private void Update()
     {
-        MoveEnemy();
+        if (shouldMove)
+        {
+            MoveEnemy();
+        }
+        else
+        {
+            rb.velocity = new Vector2(0f, rb.velocity.y);
+        }
     }
 
     private void MoveEnemy()
@@ -53,4 +67,5 @@ public class EnemyBrunette : MonoBehaviour
             GameManager.Instance.GameOver(false);
     }
 }
+
 

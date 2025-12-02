@@ -5263,6 +5263,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyJetBlack (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 9079244999831058978, guid: 09ef35c61ff6e414799619c9914e4ba0, type: 3}
+      propertyPath: shouldMove
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5953,6 +5957,10 @@ PrefabInstance:
     - target: {fileID: 993291532745714740, guid: 348627ca2d5274456a6ebbadd068617a, type: 3}
       propertyPath: m_Name
       value: EnemyBrunette (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7402988602653706987, guid: 348627ca2d5274456a6ebbadd068617a, type: 3}
+      propertyPath: shouldMove
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7512474855161287138, guid: 348627ca2d5274456a6ebbadd068617a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -12660,6 +12668,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5306331373965049350, guid: 960ce21c359f14dcf82f5e45168d147f, type: 3}
+      propertyPath: shouldMove
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7856768720355214254, guid: 960ce21c359f14dcf82f5e45168d147f, type: 3}
       propertyPath: m_Name
       value: EnemyBlonde
@@ -12859,6 +12871,10 @@ PrefabInstance:
     - target: {fileID: 7159263388377731133, guid: 09ef35c61ff6e414799619c9914e4ba0, type: 3}
       propertyPath: m_Name
       value: EnemyJetBlack
+      objectReference: {fileID: 0}
+    - target: {fileID: 9079244999831058978, guid: 09ef35c61ff6e414799619c9914e4ba0, type: 3}
+      propertyPath: shouldMove
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13122,6 +13138,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyJetBlack (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 9079244999831058978, guid: 09ef35c61ff6e414799619c9914e4ba0, type: 3}
+      propertyPath: shouldMove
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13263,6 +13283,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyJetBlack (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 9079244999831058978, guid: 09ef35c61ff6e414799619c9914e4ba0, type: 3}
+      propertyPath: shouldMove
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -13323,6 +13347,10 @@ PrefabInstance:
     - target: {fileID: 5306331373965049350, guid: 960ce21c359f14dcf82f5e45168d147f, type: 3}
       propertyPath: rightX
       value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 5306331373965049350, guid: 960ce21c359f14dcf82f5e45168d147f, type: 3}
+      propertyPath: shouldMove
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7856768720355214254, guid: 960ce21c359f14dcf82f5e45168d147f, type: 3}
       propertyPath: m_Name
@@ -15049,6 +15077,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9079244999831058978, guid: 09ef35c61ff6e414799619c9914e4ba0, type: 3}
+      propertyPath: shouldMove
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -16027,6 +16059,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyJetBlack
       objectReference: {fileID: 0}
+    - target: {fileID: 9079244999831058978, guid: 09ef35c61ff6e414799619c9914e4ba0, type: 3}
+      propertyPath: shouldMove
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -16166,6 +16202,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyBrunette
       objectReference: {fileID: 0}
+    - target: {fileID: 7402988602653706987, guid: 348627ca2d5274456a6ebbadd068617a, type: 3}
+      propertyPath: shouldMove
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7512474855161287138, guid: 348627ca2d5274456a6ebbadd068617a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 54.21958
@@ -16223,6 +16263,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyBrunette
       objectReference: {fileID: 0}
+    - target: {fileID: 7402988602653706987, guid: 348627ca2d5274456a6ebbadd068617a, type: 3}
+      propertyPath: shouldMove
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7512474855161287138, guid: 348627ca2d5274456a6ebbadd068617a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 30.465082
@@ -16279,6 +16323,10 @@ PrefabInstance:
     - target: {fileID: 993291532745714740, guid: 348627ca2d5274456a6ebbadd068617a, type: 3}
       propertyPath: m_Name
       value: EnemyBrunette (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7402988602653706987, guid: 348627ca2d5274456a6ebbadd068617a, type: 3}
+      propertyPath: shouldMove
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7512474855161287138, guid: 348627ca2d5274456a6ebbadd068617a, type: 3}
       propertyPath: m_LocalPosition.x
