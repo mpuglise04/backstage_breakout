@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
-public class EnemyBlondeMovement : MonoBehaviour
+public class EnemyBrunette : MonoBehaviour
 {
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 2f;
@@ -52,3 +53,4 @@ public class EnemyBlondeMovement : MonoBehaviour
             GameManager.Instance.GameOver(false);
     }
 }
+
