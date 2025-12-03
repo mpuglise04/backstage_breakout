@@ -22,6 +22,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject sunglassesVisual; // Child object for visual feedback
     private bool isInvincible = false;
 
+    [Header("Jetpack Settings")]
+    [SerializeField] private GameObject jetpackVisual;  // The child sprite
+    [SerializeField] private float jetpackUpwardForce = 1f;
+
+    private bool jetpackActive = false;
+    
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>(); // Connects to Rigidbody2D
@@ -62,19 +69,51 @@ public class PlayerMovement : MonoBehaviour
 
     private void HandleJump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && grounded)
+        // Normal jump
+        if (!jetpackActive)
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            if (Input.GetKeyDown(KeyCode.Space) && grounded)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            }
         }
+        else // Jetpack movement
+        {
+            if (Input.GetKey(KeyCode.Space))
+            {
+                // Only apply upward velocity while space is held
+                rb.AddForce(Vector2.up * jetpackUpwardForce, ForceMode2D.Force);
+            }
+            else
+            {
+                // Do nothing — gravity will naturally pull the player down
+            }
+        }
+
     }
+
+    // private void FixedUpdate()
+    // {
+    //     // During hiding: freeze movement entirely
+    //     if (IsHiding)
+    //     {
+    //         rb.velocity = Vector2.zero;
+    //         return;
+    //     }
+
+    //     // Normal mode: zero out vertical velocity unless jumping/falling
+    //     rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y);
+    // }
 
     private void FixedUpdate()
     {
-        if (!IsHiding)
-            rb.velocity = new Vector2(rb.velocity.x, 0);
-        else
+        if (IsHiding)
+        {
             rb.velocity = Vector2.zero;
+        }
     }
+
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -165,5 +204,34 @@ public class PlayerMovement : MonoBehaviour
         if (sunglassesVisual != null)
             sunglassesVisual.SetActive(false);
     }
+
+    public void ActivateJetpack(float duration)
+    {
+        if (!jetpackActive)
+            StartCoroutine(JetpackCoroutine(duration));
+    }
+
+    private IEnumerator JetpackCoroutine(float duration)
+    {
+        jetpackActive = true;
+
+        if (jetpackVisual != null)
+            jetpackVisual.SetActive(true);
+
+        float timer = duration;
+
+        while (timer > 0f)
+        {
+            timer -= Time.deltaTime;
+            yield return null;
+        }
+
+        jetpackActive = false;
+
+        if (jetpackVisual != null)
+            jetpackVisual.SetActive(false);
+    }
+
+
 
 }
