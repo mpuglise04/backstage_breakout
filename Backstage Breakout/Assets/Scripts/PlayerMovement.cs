@@ -143,7 +143,11 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator InvincibilityCoroutine(float duration)
     {
         isInvincible = true;
+
         if (sunglassesVisual != null) sunglassesVisual.SetActive(true);
+
+        // Ignore collisions with enemies
+        Physics2D.IgnoreLayerCollision(PLAYER_LAYER, ENEMY_LAYER, true);
 
         // Start UI countdown
         if (sunglassesTimerUI != null)
@@ -152,8 +156,13 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(duration);
 
         isInvincible = false;
+
         if (sunglassesVisual != null) sunglassesVisual.SetActive(false);
+
+        // Re-enable collisions
+        Physics2D.IgnoreLayerCollision(PLAYER_LAYER, ENEMY_LAYER, false);
     }
+
 
     // ───────── Jetpack ─────────
 
