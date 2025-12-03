@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Invincibility Settings")]
     [SerializeField] private GameObject sunglassesVisual;
+    [SerializeField] private SunglassesTimerUI sunglassesTimerUI;
     private bool isInvincible = false;
 
     [Header("Jetpack Settings")]
@@ -143,6 +144,10 @@ public class PlayerMovement : MonoBehaviour
     {
         isInvincible = true;
         if (sunglassesVisual != null) sunglassesVisual.SetActive(true);
+
+        // Start UI countdown
+        if (sunglassesTimerUI != null)
+            sunglassesTimerUI.StartTimer(duration);
 
         yield return new WaitForSeconds(duration);
 
