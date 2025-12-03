@@ -17181,10 +17181,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 4
-  jumpForce: 3
   sunglassesVisual: {fileID: 1308855396}
   jetpackVisual: {fileID: 1981488483}
-  jetpackUpwardForce: 10
+  jetpackUpwardForce: 17
+  simulatedGravity: 2
 --- !u!61 &1642416869
 BoxCollider2D:
   m_ObjectHideFlags: 0

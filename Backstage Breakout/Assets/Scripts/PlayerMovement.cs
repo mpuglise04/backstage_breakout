@@ -5,33 +5,30 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-
     [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private float jumpForce = 10f;
 
     private Rigidbody2D rb;
     private Animator anim;
     private SpriteRenderer rend;
-    private bool grounded;
     private Vector3 originalScale;
 
     private bool canHide = false;
     public bool IsHiding { get; private set; } = false;
 
     [Header("Invincibility Settings")]
-    [SerializeField] private GameObject sunglassesVisual; // Child object for visual feedback
+    [SerializeField] private GameObject sunglassesVisual;
     private bool isInvincible = false;
 
     [Header("Jetpack Settings")]
-    [SerializeField] private GameObject jetpackVisual;  // The child sprite
-    [SerializeField] private float jetpackUpwardForce = 1f;
-
+    [SerializeField] private GameObject jetpackVisual;
+    [SerializeField] private float jetpackUpwardForce; // Adjust to taste
+    [SerializeField] private float simulatedGravity;  // Downward force per second
     private bool jetpackActive = false;
-    
+    private bool isFlying = false; // Track if jetpack has launched
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>(); // Connects to Rigidbody2D
+        rb = GetComponent<Rigidbody2D>();
         rend = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
         originalScale = transform.localScale;
@@ -40,7 +37,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         HandleMovement();
-        HandleJump();
+        HandleJetpackInput();
     }
 
     private void HandleMovement()
@@ -56,54 +53,33 @@ public class PlayerMovement : MonoBehaviour
 
         anim.SetBool("run", move != 0);
 
-        // Hiding logic: hold H while in a trashcan trigger
+        // Hiding logic
         if (canHide && Input.GetKey("h"))
-        {
             StartHiding();
-        }
         else
-        {
             StopHiding();
-        }
     }
 
-    private void HandleJump()
+    private void HandleJetpackInput()
     {
-        // Normal jump
-        if (!jetpackActive)
+        if (jetpackActive && Input.GetKeyDown(KeyCode.Space) && !isFlying)
         {
-            if (Input.GetKeyDown(KeyCode.Space) && grounded)
-            {
-                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            }
-        }
-        else // Jetpack movement
-        {
-            if (Input.GetKey(KeyCode.Space))
-            {
-                // Only apply upward velocity while space is held
-                rb.AddForce(Vector2.up * jetpackUpwardForce, ForceMode2D.Force);
-            }
-            else
-            {
-                // Do nothing — gravity will naturally pull the player down
-            }
+            LaunchJetpack();
         }
 
+        // Simulate gravity if flying
+        if (isFlying)
+        {
+            rb.AddForce(Vector2.down * simulatedGravity, ForceMode2D.Force);
+        }
     }
 
-    // private void FixedUpdate()
-    // {
-    //     // During hiding: freeze movement entirely
-    //     if (IsHiding)
-    //     {
-    //         rb.velocity = Vector2.zero;
-    //         return;
-    //     }
-
-    //     // Normal mode: zero out vertical velocity unless jumping/falling
-    //     rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y);
-    // }
+    private void LaunchJetpack()
+    {
+        rb.velocity = new Vector2(rb.velocity.x, 0f); // Reset vertical velocity
+        rb.AddForce(Vector2.up * jetpackUpwardForce, ForceMode2D.Impulse);
+        isFlying = true;
+    }
 
     private void FixedUpdate()
     {
@@ -113,33 +89,19 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Check if touching the ground
+        // Stop flying when player hits ground
         if (collision.gameObject.CompareTag("Ground"))
         {
-            grounded = true;
-        }
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        // Left ground
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            grounded = false;
+            isFlying = false;
         }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Can hide when inside these trashcans collider
         if (other.gameObject.name.Equals("Trashcan 1") || other.gameObject.name.Equals("Trashcan 2"))
-        {
             canHide = true;
-        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -154,31 +116,20 @@ public class PlayerMovement : MonoBehaviour
     public void StartHiding()
     {
         if (IsHiding) return;
-
         Physics2D.IgnoreLayerCollision(8, 9, true);
-
         rend.sortingOrder = 1;
-
         IsHiding = true;
     }
 
     public void StopHiding()
     {
         if (!IsHiding) return;
-
         Physics2D.IgnoreLayerCollision(8, 9, false);
-
         rend.sortingOrder = 2;
-
         IsHiding = false;
     }
 
-    // Allows other scripts to check if the player is invincible
-    public bool IsInvincible()
-    {
-        return isInvincible;
-    }
-
+    public bool IsInvincible() => isInvincible;
 
     public void ActivateInvincibility(float duration)
     {
@@ -189,20 +140,10 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator InvincibilityCoroutine(float duration)
     {
         isInvincible = true;
-
-        // Show sunglasses
-        if (sunglassesVisual != null)
-            sunglassesVisual.SetActive(true);
-
-        // Wait for the duration
+        if (sunglassesVisual != null) sunglassesVisual.SetActive(true);
         yield return new WaitForSeconds(duration);
-
-        // End invincibility
         isInvincible = false;
-
-        // Hide sunglasses
-        if (sunglassesVisual != null)
-            sunglassesVisual.SetActive(false);
+        if (sunglassesVisual != null) sunglassesVisual.SetActive(false);
     }
 
     public void ActivateJetpack(float duration)
@@ -214,12 +155,9 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator JetpackCoroutine(float duration)
     {
         jetpackActive = true;
-
-        if (jetpackVisual != null)
-            jetpackVisual.SetActive(true);
+        if (jetpackVisual != null) jetpackVisual.SetActive(true);
 
         float timer = duration;
-
         while (timer > 0f)
         {
             timer -= Time.deltaTime;
@@ -227,11 +165,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         jetpackActive = false;
-
-        if (jetpackVisual != null)
-            jetpackVisual.SetActive(false);
+        if (jetpackVisual != null) jetpackVisual.SetActive(false);
     }
-
-
-
 }
