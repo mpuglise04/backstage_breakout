@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class HideZone : MonoBehaviour
 {
@@ -8,20 +8,35 @@ public class HideZone : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (!other.CompareTag("Player")) return;
+
+        player = other.GetComponent<PlayerMovement>();
+
+        if (player != null)
         {
-            player = other.GetComponent<PlayerMovement>();
+            player.SetCanHide(true);
             TryShowPrompt();
         }
+
+        Debug.Log("Player entered HideZone");
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (!other.CompareTag("Player")) return;
+
+        if (player != null)
+        {
+            player.SetCanHide(false);
+        }
+
+        if (hidePromptUI != null)
         {
             hidePromptUI.SetActive(false);
-            player = null;
         }
+
+        Debug.Log("Player exited HideZone");
+        player = null;
     }
 
     private void Update()
@@ -32,9 +47,15 @@ public class HideZone : MonoBehaviour
 
     private void TryShowPrompt()
     {
+        if (hidePromptUI == null || player == null) return;
+
         if (player.IsHiding)
+        {
             hidePromptUI.SetActive(false);
+        }
         else
+        {
             hidePromptUI.SetActive(true);
+        }
     }
 }
