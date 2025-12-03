@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class JetpackItem : MonoBehaviour
 {
-    [SerializeField] private float jetpackDuration = 10f;
+    [SerializeField] private float jetpackDuration = 6f;
+
+    [SerializeField] private JetpackMessageUI messageUI;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -16,9 +18,14 @@ public class JetpackItem : MonoBehaviour
                 pm.ActivateJetpack(jetpackDuration);
             }
 
-            // Hide the jetpack item so it cannot be collected again
+            // Show on-screen message
+            if (messageUI != null)
+            {
+                messageUI.ShowMessage();
+            }
+
+            // Hide jetpack object
             gameObject.SetActive(false);
         }
     }
 }
-
