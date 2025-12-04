@@ -8,7 +8,21 @@ public class Timer : MonoBehaviour
     [SerializeField] TextMeshProUGUI timerText;
     [SerializeField] float remainingTime;
 
-    // Update is called once per frame
+    private void Start()
+    {
+        if (timerText != null)
+            timerText.gameObject.SetActive(false);
+
+        enabled = false;
+    }
+
+    public void StartTimer()
+    {
+        if (timerText != null)
+            timerText.gameObject.SetActive(true);
+
+        enabled = true;
+    }
     void Update()
     {
         if (remainingTime > 0)
