@@ -46,9 +46,31 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void ShowIntroAndStartTimer()
+    {
+        if (introText != null)
+        {
+            introText.text = "Reach the venue before time runs out!";
+            introText.gameObject.SetActive(true);
+            StartCoroutine(HideIntroText());
+        }
+
+        StartCoroutine(StartTimerWithDelay());
+    }
+
+    private IEnumerator StartTimerWithDelay()
+    {
+        yield return new WaitForSeconds(2f);
+
+        Timer timer = FindObjectOfType<Timer>();
+        if (timer != null)
+            timer.StartTimer();
+    }
+
+
     private IEnumerator HideIntroText()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(5f);
         introText.gameObject.SetActive(false);
     }
 
