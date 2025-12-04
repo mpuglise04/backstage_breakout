@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -28,6 +29,15 @@ public class PlayerMovement : MonoBehaviour
     private bool jetpackActive = false;
     private bool isFlying = false;
 
+    // Spring Settings
+    [Header("Spring Settings")]
+    [SerializeField] private float springJumpForce = 18f; // tweak in Inspector
+    private bool onSpringTile = false;
+
+    //UI References
+    [Header("UI References")]
+    [SerializeField] private TextMeshProUGUI springPromptTMP;
+
     private const int PLAYER_LAYER = 8;
     private const int ENEMY_LAYER = 9;
 
@@ -37,12 +47,17 @@ public class PlayerMovement : MonoBehaviour
         anim = GetComponent<Animator>();
         rend = GetComponent<SpriteRenderer>();
         originalScale = transform.localScale;
+
+        // Make sure the prompt is hidden at start
+        if (springPromptTMP != null)
+            springPromptTMP.gameObject.SetActive(false);
     }
 
     private void Update()
     {
         HandleMovement();
         HandleJetpackInput();
+        HandleSpringInput();
     }
 
     private void FixedUpdate()
@@ -68,6 +83,7 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector2(move * moveSpeed, rb.velocity.y);
         }
 
+        // Flip sprite
         if (move > 0)
         {
             transform.localScale = new Vector3(Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
@@ -77,11 +93,13 @@ public class PlayerMovement : MonoBehaviour
             transform.localScale = new Vector3(-Mathf.Abs(originalScale.x), originalScale.y, originalScale.z);
         }
 
+        // Animator
         if (anim != null)
         {
             anim.SetBool("run", move != 0);
         }
 
+        // Hiding with H key
         if (canHide && Input.GetKey("h"))
         {
             StartHiding();
@@ -90,6 +108,31 @@ public class PlayerMovement : MonoBehaviour
         {
             StopHiding();
         }
+    }
+
+    // Spring Input
+
+    private void HandleSpringInput()
+    {
+        // Player is overlapping a spring tile and chooses to press Space
+        if (onSpringTile && Input.GetKeyDown(KeyCode.Space) && !IsHiding)
+        {
+            SpringJump();
+        }
+    }
+
+    private void SpringJump()
+    {
+        // Optional: cancel current vertical velocity so the bounce is consistent
+        rb.velocity = new Vector2(rb.velocity.x, 0f);
+
+        rb.AddForce(Vector2.up * springJumpForce, ForceMode2D.Impulse);
+
+        // Hide prompt once we use the spring
+        if (springPromptTMP != null)
+            springPromptTMP.gameObject.SetActive(false);
+
+        onSpringTile = false;
     }
 
     public void SetCanHide(bool value)
@@ -112,6 +155,10 @@ public class PlayerMovement : MonoBehaviour
             rend.sortingOrder = 0;
 
         IsHiding = true;
+
+        // If we hide, also hide spring prompt to avoid confusion
+        if (springPromptTMP != null)
+            springPromptTMP.gameObject.SetActive(false);
     }
 
     private void StopHiding()
@@ -163,7 +210,6 @@ public class PlayerMovement : MonoBehaviour
         Physics2D.IgnoreLayerCollision(PLAYER_LAYER, ENEMY_LAYER, false);
     }
 
-
     // ───────── Jetpack ─────────
 
     private void HandleJetpackInput()
@@ -207,5 +253,29 @@ public class PlayerMovement : MonoBehaviour
         if (jetpackVisual != null) jetpackVisual.SetActive(false);
 
         // After buff ends, we can still be falling normally
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Spring"))
+        {
+            onSpringTile = true;
+
+            // Show "Press SPACE to bounce" prompt
+            if (springPromptTMP != null && !IsHiding)
+                springPromptTMP.gameObject.SetActive(true);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Spring"))
+        {
+            onSpringTile = false;
+
+            // Hide prompt when we leave the spring
+            if (springPromptTMP != null)
+                springPromptTMP.gameObject.SetActive(false);
+        }
     }
 }
