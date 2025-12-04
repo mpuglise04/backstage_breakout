@@ -1279,7 +1279,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5306331373965049350, guid: 960ce21c359f14dcf82f5e45168d147f, type: 3}
       propertyPath: rightX
-      value: 39
+      value: 38
       objectReference: {fileID: 0}
     - target: {fileID: 5306331373965049350, guid: 960ce21c359f14dcf82f5e45168d147f, type: 3}
       propertyPath: shouldMove
@@ -3922,7 +3922,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2285944854408103328, guid: 960ce21c359f14dcf82f5e45168d147f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 109.764404
+      value: 111.5
       objectReference: {fileID: 0}
     - target: {fileID: 2285944854408103328, guid: 960ce21c359f14dcf82f5e45168d147f, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3962,11 +3962,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5306331373965049350, guid: 960ce21c359f14dcf82f5e45168d147f, type: 3}
       propertyPath: leftX
-      value: 130
+      value: 127
       objectReference: {fileID: 0}
     - target: {fileID: 5306331373965049350, guid: 960ce21c359f14dcf82f5e45168d147f, type: 3}
       propertyPath: rightX
-      value: 135
+      value: 138
       objectReference: {fileID: 0}
     - target: {fileID: 5306331373965049350, guid: 960ce21c359f14dcf82f5e45168d147f, type: 3}
       propertyPath: shouldMove
@@ -4266,7 +4266,7 @@ Transform:
   m_GameObject: {fileID: 992055334}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.29, y: -2.19, z: 0}
+  m_LocalPosition: {x: -7.1, y: -1.98, z: 0}
   m_LocalScale: {x: 4.5, y: 4.5, z: 4.5}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -17099,7 +17099,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9079244999831058978, guid: 09ef35c61ff6e414799619c9914e4ba0, type: 3}
       propertyPath: leftX
-      value: 135
+      value: 133
       objectReference: {fileID: 0}
     - target: {fileID: 9079244999831058978, guid: 09ef35c61ff6e414799619c9914e4ba0, type: 3}
       propertyPath: rightX
@@ -24639,7 +24639,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5306331373965049350, guid: 960ce21c359f14dcf82f5e45168d147f, type: 3}
       propertyPath: rightX
-      value: 22
+      value: 24
       objectReference: {fileID: 0}
     - target: {fileID: 5306331373965049350, guid: 960ce21c359f14dcf82f5e45168d147f, type: 3}
       propertyPath: shouldMove
@@ -24994,7 +24994,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7402988602653706987, guid: 348627ca2d5274456a6ebbadd068617a, type: 3}
       propertyPath: moveSpeed
-      value: 3.25
+      value: 3.1
       objectReference: {fileID: 0}
     - target: {fileID: 7402988602653706987, guid: 348627ca2d5274456a6ebbadd068617a, type: 3}
       propertyPath: shouldMove
