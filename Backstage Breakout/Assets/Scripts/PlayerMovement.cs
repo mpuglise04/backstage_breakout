@@ -152,7 +152,7 @@ public class PlayerMovement : MonoBehaviour
         Physics2D.IgnoreLayerCollision(PLAYER_LAYER, ENEMY_LAYER, true);
 
         if (rend != null)
-            rend.sortingOrder = 0;
+            rend.sortingOrder = 1;
 
         IsHiding = true;
 
@@ -168,7 +168,7 @@ public class PlayerMovement : MonoBehaviour
         Physics2D.IgnoreLayerCollision(PLAYER_LAYER, ENEMY_LAYER, false);
 
         if (rend != null)
-            rend.sortingOrder = 2;
+            rend.sortingOrder = 3;
 
         IsHiding = false;
         isFlying = false;
