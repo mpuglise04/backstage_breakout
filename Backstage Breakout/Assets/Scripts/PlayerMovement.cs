@@ -193,6 +193,14 @@ public class PlayerMovement : MonoBehaviour
 
         if (sunglassesVisual != null) sunglassesVisual.SetActive(true);
 
+        var sr = sunglassesVisual.GetComponent<SpriteRenderer>();
+        if (sr != null)
+        {
+            sr.enabled = false;
+            sr.enabled = true;  // forces Unity to redraw the sprite
+            sr.sortingOrder = 10; // GUARANTEED above the player
+        }
+
         // Ignore collisions with enemies
         Physics2D.IgnoreLayerCollision(PLAYER_LAYER, ENEMY_LAYER, true);
 
