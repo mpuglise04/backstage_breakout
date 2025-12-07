@@ -8,6 +8,9 @@ public class JetpackItem : MonoBehaviour
 
     [SerializeField] private JetpackMessageUI messageUI;
 
+    [Header("Audio Settings")]
+    [SerializeField] private AudioClip collectSound;   // Assign your MP3 in Inspector
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
@@ -24,8 +27,24 @@ public class JetpackItem : MonoBehaviour
                 messageUI.ShowMessage();
             }
 
+            // Play collection sound in 2D
+            if (collectSound != null)
+            {
+                Play2DSound(collectSound);
+            }
+
             // Hide jetpack object
             gameObject.SetActive(false);
         }
+    }
+
+    private void Play2DSound(AudioClip clip)
+    {
+        GameObject tempGO = new GameObject("TempAudio");
+        AudioSource aSource = tempGO.AddComponent<AudioSource>();
+        aSource.clip = clip;
+        aSource.spatialBlend = 0f; // fully 2D
+        aSource.Play();
+        Destroy(tempGO, clip.length);
     }
 }

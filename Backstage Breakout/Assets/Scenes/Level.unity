@@ -1882,6 +1882,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   invincibilityDuration: 7
+  collectSound: {fileID: 8300000, guid: 7c71519f5255b441cba16972d9056447, type: 3}
 --- !u!61 &399235224
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2433,6 +2434,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   jetpackDuration: 10
   messageUI: {fileID: 875162765}
+  collectSound: {fileID: 8300000, guid: 7c71519f5255b441cba16972d9056447, type: 3}
 --- !u!61 &525497202
 BoxCollider2D:
   m_ObjectHideFlags: 0
